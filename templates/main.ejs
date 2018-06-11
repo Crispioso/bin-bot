@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bin Bot</title>
+</head>
+<body>
+    <h1>Bin Bot</h1>
+    <p>When are my bins due?</p>
+    <h2>Garden</h2>
+    <% if (bins.garden.isDue) { %>
+        <p>Due tomorrow</p>
+    <% } %>
+    <dl>
+        <dd>Collected on: </dd>
+        <dt><%= bins.garden.collectionDate %></dt>
+    </dl>
+</body>
+</html>
