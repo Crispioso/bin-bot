@@ -213,10 +213,13 @@ const handleNewData = async data => {
 }
 
 schedule.scheduleJob('0 6,18 * * *', async () => {
-    console.log("Checking bin data at ", new Date().toISOString());
-
-    const data = await buildResponseData();
-    await handleNewData(data);
+    try {
+        console.log("Checking bin data at " + new Date().toISOString());
+        const data = await buildResponseData();
+        await handleNewData(data);
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 const render = templateData => {
