@@ -15,6 +15,7 @@
   "dependencies": {
     "chokidar-cli": "^1.2.0",
     "date-fns": "^1.29.0",
+    "dateformat": "^3.0.3",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "node-fetch": "^2.1.2",

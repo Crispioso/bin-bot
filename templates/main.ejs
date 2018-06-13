@@ -4,18 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet"> 
     <title>Bin Bot</title>
+    <style>
+        * {
+            font-family: 'Roboto', sans-serif;
+            color: #202124;
+        }
+
+        body {
+            margin: 0 16px;
+        }
+
+        h1 {
+            margin: 20px 0;
+        }
+
+        .bin {
+            margin: 22px 0;
+            padding: 16px 20px 12px;
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+        }
+
+        @media (min-width: 600px) {
+            body {
+            margin: 0 16px;
+        }
+
+            h1 {
+                margin: 20px 0;
+            }
+
+            .bin {
+                margin: 20px 0;
+                width: 20em;
+            }
+        }
+
+        .bin__title {
+            padding: 8px 0 12px 0;
+            font-weight: 500;
+        }
+
+        .bin__content {
+            color: #5f6368;
+        }
+
+        .updated-on {
+            position: fixed;
+            bottom: 0;
+            color: rgba(0,0,0,.54);
+        }
+    </style>
 </head>
 <body>
     <h1>Bin Bot</h1>
-    <p>When are my bins due?</p>
-    <h2>Garden</h2>
-    <% if (bins.garden.isDue) { %>
-        <p>Due tomorrow</p>
-    <% } %>
-    <dl>
-        <dd>Collected on: </dd>
-        <dt><%= bins.garden.collectionDate %></dt>
-    </dl>
+    <!--<p>When are my bins due?</p>-->
+    <div class="bin">
+        <h2 class="bin__title">Waste</h2>
+        <div class="bin__content">
+            <p>Due <%= bins.waste.daysUntilDue %></p>
+            <p>Collected on: <%= bins.waste.collectionDate %></p>
+        </div>
+    </div>
+    <div class="bin">
+        <h2 class="bin__title">Recycling</h2>
+        <div class="bin__content">
+            <p>Due <%= bins.recycling.daysUntilDue %></p>
+            <p>Collected on: <%= bins.recycling.collectionDate %></p>
+        </div>
+    </div>
+    <div class="bin">
+        <h2 class="bin__title">Garden</h2>
+        <div class="bin__content">
+            <p>Due: <%= bins.garden.daysUntilDue %></p>
+            <p>Collected on: <%= bins.garden.collectionDate %></p>
+        </div>
+    </div>
+
+    <p class="updated-on">Last updated on: <%= updatedOn %></p>
 </body>
 </html>

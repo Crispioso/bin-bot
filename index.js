@@ -4,6 +4,7 @@ const dateFns = require('date-fns');
 const express = require('express');
 const ejs = require('ejs');
 var schedule = require('node-schedule');
+const dateFormat = require('dateformat');
 
 const app = express();
 const port = process.env.PORT || "8000";
@@ -13,7 +14,7 @@ if (!webhookKey) {
     console.warn("No WEBHOOK_URL provided, unable to send IFTTT webhook POST");
 }
 
-const response = {
+let templateData = {
     updatedOn: "",
     bins: {
         garden: {
@@ -119,7 +120,7 @@ const buildResponseData = async () => {
     console.log("Fetched new data:\n", newResponse);
 
     await handleNewData(newResponse);
-    return newResponse;
+    templateData = newResponse;
 };
 
 const webhookRequest = async data => {
@@ -212,15 +213,9 @@ const handleNewData = async data => {
     }
 }
 
-schedule.scheduleJob('0 6,18 * * *', async () => {
-    try {
-        console.log("Checking bin data at " + new Date().toISOString());
-        const data = await buildResponseData();
-        await handleNewData(data);
-    } catch (error) {
-        console.log(error);
-    }
-});
+const formatDate = date => {
+    return dateFormat(date, "dddd, dS mmmm");
+}
 
 const render = templateData => {
     let HTML;
@@ -235,19 +230,55 @@ const render = templateData => {
     return HTML;
 };
 
+buildResponseData();
+
+schedule.scheduleJob('* * * *', async () => {
+    try {
+        console.log("Checking bin data at " + new Date().toISOString());
+        await buildResponseData();
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+schedule.scheduleJob('0 6,18 * * *', async () => {
+    try {
+        console.log("Checking bin data at " + new Date().toISOString());
+        await buildResponseData();
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
 
-const dataForLoad = buildResponseData();
 app.get('/api/bins', function (req, res) {
-    res.json(dataForLoad);
+    res.json(templateData);
 });
 
 app.get('/', function (req, res) {
-    res.send(render(response));
+    const formattedDateTemplateData = {
+        updatedOn: dateFormat(templateData.updatedOn, "h:MM:ss TT dddd, dS mmmm"),
+        bins: {
+            garden: {
+                ...templateData.bins.garden,
+                collectionDate: formatDate(templateData.bins.garden.collectionDate)
+            },
+            waste: {
+                ...templateData.bins.waste,
+                collectionDate: formatDate(templateData.bins.waste.collectionDate)
+            },
+            recycling: {
+                ...templateData.bins.recycling,
+                collectionDate: formatDate(templateData.bins.recycling.collectionDate)
+            }
+        }
+    }
+    res.send(render(formattedDateTemplateData));
 });
 
 app.listen(port, function () {
