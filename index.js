@@ -80,8 +80,8 @@ const getDaysUntilDue = collectionISODate => {
 
 const formatData = json => {
     const collectionDates = {
-        garden: getCollectionDate(json.rss.channel[0].item.title),
-        waste: getCollectionDate(json.rss.channel[1].item.title),
+        waste: getCollectionDate(json.rss.channel[0].item.title),
+        garden: getCollectionDate(json.rss.channel[1].item.title),
         recycling: getCollectionDate(json.rss.channel[2].item.title)
     };
 
