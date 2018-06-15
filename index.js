@@ -232,15 +232,6 @@ const render = templateData => {
 
 buildResponseData();
 
-schedule.scheduleJob('* * * *', async () => {
-    try {
-        console.log("Checking bin data at " + new Date().toISOString());
-        await buildResponseData();
-    } catch (error) {
-        console.log(error);
-    }
-});
-
 schedule.scheduleJob('0 6,18 * * *', async () => {
     try {
         console.log("Checking bin data at " + new Date().toISOString());
