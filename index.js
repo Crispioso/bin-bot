@@ -69,21 +69,32 @@ const getCollectionDate = collectionDate => {
 
 const getDaysUntilDue = collectionISODate => {
     const noOfDays = dateFns.distanceInWordsStrict(new Date(), collectionISODate, {unit: "d"});
-    if (noOfDays.split(" days")[0] === "1") {
+    if (noOfDays.split(" ")[0] === "1") {
         return "Tomorrow";
     }
-    if (noOfDays.split(" days")[0] === "0") {
+    if (noOfDays.split(" ")[0] === "0") {
         return "Today";
     }
     return noOfDays;
 }
 
 const formatData = json => {
-    const collectionDates = {
-        waste: getCollectionDate(json.rss.channel[0].item.title),
-        garden: getCollectionDate(json.rss.channel[1].item.title),
-        recycling: getCollectionDate(json.rss.channel[2].item.title)
-    };
+    console.info("Formatting JSON data: ", json);
+    let collectionDates = {
+        waste: undefined,
+        garden: undefined,
+        recycling: undefined
+    }
+    try {
+        collectionDates = {
+            waste: getCollectionDate(json.rss.channel[0].item.title),
+            garden: getCollectionDate(json.rss.channel[1].item.title),
+            recycling: getCollectionDate(json.rss.channel[2].item.title)
+        };
+    } catch (error) {
+        console.error("Error using JSON to create formatted collection date", error);
+        throw error;
+    }
 
     return {
         garden: {
@@ -124,6 +135,7 @@ const buildResponseData = async () => {
 };
 
 const webhookRequest = async data => {
+    console.log(data);
     const webhookResponse = await fetch(webhookKey, {
         method: "POST",
         body: JSON.stringify(data),
