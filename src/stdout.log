@@ -1,0 +1,27 @@
+Bin bot listening on port 8000
+Formatting JSON data:  { rss: 
+   { version: '2.0',
+     'xmlns:astun': 'http://www.astuntechnology.com/xsl',
+     'xmlns:georss': 'http://www.georss.org/georss',
+     channel: [ [Object], [Object], [Object] ] } }
+Fetched new data:
+ { updatedOn: '2018-06-24T19:43:19.939Z',
+  bins: 
+   { garden: 
+      { isDue: false,
+        daysUntilDue: '5 days',
+        collectionDate: '2018-06-29T22:00:00.000Z',
+        hasBeenPutOut: false },
+     waste: 
+      { isDue: false,
+        daysUntilDue: '8 days',
+        collectionDate: '2018-07-02T22:00:00.000Z',
+        hasBeenPutOut: false },
+     recycling: 
+      { isDue: true,
+        daysUntilDue: 'Tomorrow',
+        collectionDate: '2018-06-25T22:00:00.000Z',
+        hasBeenPutOut: false } } }
+Recycling bin is being collected tomorrow.
+{ value1: 'Recycling bin is being collected tomorrow.' }
+Congratulations! You've fired the bin_due event

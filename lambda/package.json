@@ -1,0 +1,20 @@
+{
+  "name": "bin-bot-lambda",
+  "version": "0.0.1",
+  "description": "Bot lambda for getting up-to-date information on what bins are due",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node-lambda run"
+  },
+  "author": "Crispin Merriman",
+  "license": "ISC",
+  "dependencies": {
+    "date-fns": "^1.29.0",
+    "node-fetch": "^2.1.2",
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "node-lambda": "^0.11.7"
+  }
+}
